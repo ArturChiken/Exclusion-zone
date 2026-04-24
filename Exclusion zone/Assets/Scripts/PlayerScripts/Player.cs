@@ -2,22 +2,29 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Rigidbody2D rb;
+    public Vector2 moveInput;
+
     public int hp;
     public float speed;
     public int iq;
 
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     private void Update()
     {
         PlayerMove();
-        PlayerDamage(3);
-        Debug.Log($"{hp}");
     }
 
     void PlayerMove()
     {
-        float h = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float v = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-        transform.Translate(h, v, 0);
+        moveInput.x = Input.GetAxis("Horizontal");
+        moveInput.y = Input.GetAxis("Vertical");
+        
+        rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
     }
 
     public void PlayerDamage(int damage)
