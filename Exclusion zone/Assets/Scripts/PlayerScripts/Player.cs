@@ -24,18 +24,20 @@ public class Player : MonoBehaviour
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");
         
-        rb.MovePosition(rb.position + moveInput * speed * Time.deltaTime);
+        rb.MovePosition(rb.position + (moveInput * speed * Time.deltaTime));
     }
 
     public void PlayerDamage(int damage)
     {
-        if (hp > damage)
+        if (hp > 0)
         {
             hp -= damage;
         }
         else
         {
-            Debug.Log("Умер");
+            DeathScreen();
         }
     }
+
+    public void DeathScreen() { }
 }
