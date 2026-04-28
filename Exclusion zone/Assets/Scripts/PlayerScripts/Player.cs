@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public int iq;
 
     public int medKits;
+    public int healAmount;
     public int food;
 
     private void Start()
@@ -20,6 +21,14 @@ public class Player : MonoBehaviour
         hp = maxHp;
 
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && medKits >= 0)
+        {
+            PlayerHeals(healAmount);
+        }
     }
 
     private void FixedUpdate()
@@ -49,15 +58,27 @@ public class Player : MonoBehaviour
 
     public void DeathScreen() { }
 
+    public void PlayerGetsMedkit()
+    {
+        medKits++;
+    }
+
     public void PlayerHeals(int heal)
     {
         if (hp + heal <= maxHp)
         {
             hp += heal;
+            medKits--;
+        }
+        else if (hp == maxHp)
+        {
+            hp = maxHp;
         }
         else
         {
             hp = maxHp;
+            medKits--;
         }
+        Debug.Log($"{hp}");
     }
 }

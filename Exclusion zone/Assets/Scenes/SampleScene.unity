@@ -360,6 +360,10 @@ PrefabInstance:
       propertyPath: speed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3789335109081847833, guid: 2c42938f231ccb4488c4c772babd2ccf, type: 3}
+      propertyPath: medKits
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6550854724969259637, guid: 2c42938f231ccb4488c4c772babd2ccf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
