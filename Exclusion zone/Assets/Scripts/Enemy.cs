@@ -5,6 +5,24 @@ public class Enemy : MonoBehaviour
     public int hp;
     public int damage;
     public float speed;
+    public float cooldown = 5f;
+
+    private Transform playerPos;
+
+    private void Start()
+    {
+        playerPos = FindObjectOfType<Player>().GetComponent<Transform>();
+    }
+
+    private void FixedUpdate()
+    {
+        FindPlayer();
+    }
+
+    private void FindPlayer()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, playerPos.position, speed * Time.fixedDeltaTime);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
