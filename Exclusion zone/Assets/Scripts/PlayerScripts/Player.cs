@@ -5,9 +5,8 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     public Vector2 moveInput;
 
-    [SerializeField]
-    private int maxHp;
-    private int hp;
+    public int maxHp;
+    public int hp;
     public float speed;
     [Range(0, 100)]
     public int iq;
@@ -18,14 +17,12 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        hp = maxHp;
-
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && medKits >= 0)
+        if (Input.GetKeyDown(KeyCode.E))
         {
             PlayerHeals(healAmount);
         }
@@ -65,20 +62,25 @@ public class Player : MonoBehaviour
 
     public void PlayerHeals(int heal)
     {
-        if (hp + heal <= maxHp)
+        if (medKits >= 1)
         {
-            hp += heal;
-            medKits--;
+            if (hp + heal <= maxHp)
+            {
+                hp += heal;
+                medKits--;
+                Debug.Log($"{hp}, 1");
+            }
+            else if (hp == maxHp)
+            {
+                hp = maxHp;
+                Debug.Log($"{hp}, 2");
+            }
+            else
+            {
+                hp = maxHp;
+                medKits--;
+                Debug.Log($"{hp}, 3");
+            }
         }
-        else if (hp == maxHp)
-        {
-            hp = maxHp;
-        }
-        else
-        {
-            hp = maxHp;
-            medKits--;
-        }
-        Debug.Log($"{hp}");
     }
 }

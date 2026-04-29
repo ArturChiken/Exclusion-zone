@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -11,7 +12,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        playerPos = FindObjectOfType<Player>().GetComponent<Transform>();
+        playerPos = FindFirstObjectByType<Player>().GetComponent<Transform>();
     }
 
     private void FixedUpdate()
@@ -22,6 +23,8 @@ public class Enemy : MonoBehaviour
     private void FindPlayer()
     {
         transform.position = Vector2.MoveTowards(transform.position, playerPos.position, speed * Time.fixedDeltaTime);
+
+        FlipSprite(playerPos.position);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -42,6 +45,32 @@ public class Enemy : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void SetPlayerPos(Transform playerPos)
+    {
+        this.playerPos = playerPos;
+    }
+
+    public Transform GetPlayerPos()
+    {
+        return playerPos;
+    }
+
+    private void FlipSprite(Vector3 targetPosition)
+    {
+        // Если игрок слева (X меньше чем у врага)
+        if (targetPosition.x < transform.position.x)
+        {
+            // Поворот налево (0 по Y)
+            transform.localScale = new Vector3(1, 1.5f, 1);
+        }
+        // Если игрок справа (X больше чем у врага)
+        else if (targetPosition.x > transform.position.x)
+        {
+            // Поворот направо (180 по Y)
+            transform.localScale = new Vector3(-1, 1.5f, 1);
         }
     }
 }
