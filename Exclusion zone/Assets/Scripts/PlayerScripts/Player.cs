@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public int healAmount;
     public int food;
 
+    public InterruptObject useObject;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,9 +24,14 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             PlayerHeals(healAmount);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Interrupt();
         }
     }
 
@@ -82,5 +89,11 @@ public class Player : MonoBehaviour
                 Debug.Log($"{hp}, 3");
             }
         }
+    }
+
+    public void Interrupt()
+    {
+        Debug.Log(useObject.name);
+        Debug.Log(useObject.text);
     }
 }
