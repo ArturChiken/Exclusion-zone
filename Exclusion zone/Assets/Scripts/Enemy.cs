@@ -9,9 +9,11 @@ public class Enemy : MonoBehaviour
     public float cooldown = 5f;
 
     private Transform playerPos;
+    private int triggerLayerIndex;
 
     private void Start()
     {
+        triggerLayerIndex = 7;// LayerMask.NameToLayer("Test"); // Или "Test"
         playerPos = FindFirstObjectByType<Player>().GetComponent<Transform>();
     }
 
@@ -29,7 +31,11 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Bullet bullet))
+        // Проверяем, что столкнулись НЕ с TriggerArea
+        if (collision.gameObject.layer == triggerLayerIndex)
+            return; // Игнорируем попадание в TriggerArea
+
+        if (collision.gameObject.TryGetComponent(out Bullet bullet) && !collision.gameObject.TryGetComponent(out EnemyBullet eBullet))
         {
             TakeDamage(bullet);
             Destroy(bullet.gameObject);
@@ -38,7 +44,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(Bullet bullet)
     {
-        if (hp > 0)
+        if (hp-bullet.damage > 0)
         {
             hp -= bullet.damage;
         }

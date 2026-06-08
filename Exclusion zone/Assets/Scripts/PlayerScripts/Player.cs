@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
 
     public void PlayerDamage(int damage)
     {
-        if (hp > 0)
+        if (hp-damage > 0)
         {
             hp -= damage;
         }
@@ -60,7 +60,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void DeathScreen() { }
+    public void DeathScreen()
+    {
+        Debug.Log("DEAD");
+    }
 
     public void PlayerGetsMedkit()
     {
@@ -95,5 +98,18 @@ public class Player : MonoBehaviour
     {
         Debug.Log(useObject.name);
         Debug.Log(useObject.text);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Проверяем, что столкнулись НЕ с TriggerArea
+        if (collision.gameObject.layer == 7)
+            return; // Игнорируем попадание в TriggerArea
+
+        if (collision.gameObject.TryGetComponent(out EnemyBullet bullet))
+        {
+            PlayerDamage(bullet.damage);
+            Destroy(bullet.gameObject);
+        }
     }
 }

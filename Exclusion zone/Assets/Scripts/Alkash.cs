@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class Alkash : Enemy
 {
-    private SpriteRenderer spriteRenderer;
-
     private void Start()
     {
         Transform playerPos = FindFirstObjectByType<Player>().GetComponent<Transform>();
         SetPlayerPos(playerPos);
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
