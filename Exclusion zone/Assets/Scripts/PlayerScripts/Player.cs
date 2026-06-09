@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public int food;
 
     public InterruptObject useObject;
+    public Transform spawnPoint;
 
     private void Start()
     {
@@ -63,6 +64,12 @@ public class Player : MonoBehaviour
     public void DeathScreen()
     {
         Debug.Log("DEAD");
+        if (spawnPoint != null)
+        {
+            gameObject.transform.position = spawnPoint.position;
+        }
+
+        hp = maxHp;
     }
 
     public void PlayerGetsMedkit()
@@ -110,6 +117,30 @@ public class Player : MonoBehaviour
         {
             PlayerDamage(bullet.damage);
             Destroy(bullet.gameObject);
+        }
+    }
+
+    public void MinusIQ(int down)
+    {
+        if (iq - down >= 0)
+        {
+            iq -= down;
+        }
+        else
+        {
+            iq = 0;
+        }
+    }
+
+    public void PlusIQ(int up)
+    {
+        if (iq + up <= 100)
+        {
+            iq += up;
+        }
+        else
+        {
+            iq = 100;
         }
     }
 }

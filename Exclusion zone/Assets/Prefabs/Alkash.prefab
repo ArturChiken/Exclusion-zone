@@ -113,6 +113,7 @@ MonoBehaviour:
   damage: 6
   speed: 1
   cooldown: 5
+  iqDown: 2
 --- !u!50 &5749712929914601895
 Rigidbody2D:
   serializedVersion: 5

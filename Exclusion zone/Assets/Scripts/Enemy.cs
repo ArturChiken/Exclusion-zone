@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float cooldown = 5f;
 
+    public int iqDown;
+
     private Transform playerPos;
     private int triggerLayerIndex;
 
@@ -50,6 +52,9 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            Player player = FindFirstObjectByType<Player>();
+            player.MinusIQ(iqDown);
+
             Destroy(gameObject);
         }
     }

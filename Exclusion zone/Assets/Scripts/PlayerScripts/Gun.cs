@@ -16,4 +16,4 @@ public class Gun : MonoBehaviour
             Instantiate(bullet, gunSlot.position, gunSlot.rotation);
         }
     }
-}
+};
