@@ -1,13 +1,13 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public Rigidbody2D rb;
     public Vector2 moveInput;
 
-    [SerializeField]
-    private int maxHp;
-    private int hp;
+    public int maxHp;
+    public int hp;
     public float speed;
     [Range(0, 100)]
     public int iq;
@@ -16,18 +16,24 @@ public class Player : MonoBehaviour
     public int healAmount;
     public int food;
 
+    public InterruptObject useObject;
+    public Transform spawnPoint;
+
     private void Start()
     {
-        hp = maxHp;
-
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && medKits >= 0)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             PlayerHeals(healAmount);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Interrupt();
         }
     }
 
@@ -46,7 +52,7 @@ public class Player : MonoBehaviour
 
     public void PlayerDamage(int damage)
     {
-        if (hp > 0)
+        if (hp-damage > 0)
         {
             hp -= damage;
         }
@@ -56,7 +62,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void DeathScreen() { }
+    public void DeathScreen()
+    {
+        Debug.Log("DEAD");
+        if (spawnPoint != null)
+        {
+            gameObject.transform.position = spawnPoint.position;
+        }
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        hp = maxHp;
+    }
 
     public void PlayerGetsMedkit()
     {
@@ -65,20 +81,68 @@ public class Player : MonoBehaviour
 
     public void PlayerHeals(int heal)
     {
-        if (hp + heal <= maxHp)
+        if (medKits >= 1)
         {
-            hp += heal;
-            medKits--;
+            if (hp + heal <= maxHp)
+            {
+                hp += heal;
+                medKits--;
+                Debug.Log($"{hp}, 1");
+            }
+            else if (hp == maxHp)
+            {
+                hp = maxHp;
+                Debug.Log($"{hp}, 2");
+            }
+            else
+            {
+                hp = maxHp;
+                medKits--;
+                Debug.Log($"{hp}, 3");
+            }
         }
-        else if (hp == maxHp)
+    }
+
+    public void Interrupt()
+    {
+        Debug.Log(useObject.name);
+        Debug.Log(useObject.text);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Проверяем, что столкнулись НЕ с TriggerArea
+        if (collision.gameObject.layer == 7)
+            return; // Игнорируем попадание в TriggerArea
+
+        if (collision.gameObject.TryGetComponent(out EnemyBullet bullet))
         {
-            hp = maxHp;
+            PlayerDamage(bullet.damage);
+            Destroy(bullet.gameObject);
+        }
+    }
+
+    public void MinusIQ(int down)
+    {
+        if (iq - down >= 0)
+        {
+            iq -= down;
         }
         else
         {
-            hp = maxHp;
-            medKits--;
+            iq = 0;
         }
-        Debug.Log($"{hp}");
+    }
+
+    public void PlusIQ(int up)
+    {
+        if (iq + up <= 100)
+        {
+            iq += up;
+        }
+        else
+        {
+            iq = 100;
+        }
     }
 }
