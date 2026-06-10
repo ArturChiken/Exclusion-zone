@@ -10,7 +10,7 @@ public class InterruptObject : MonoBehaviour
     private bool wasActivated;
     public int iqToDown;
 
-    public Image image;
+    public UnityEngine.UI.Image image;
     public GameObject console;
 
     public TextMeshProUGUI nameText;

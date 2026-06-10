@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
             gameObject.transform.position = spawnPoint.position;
         }
 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         hp = maxHp;
     }
 
