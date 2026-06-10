@@ -764,6 +764,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6803196380359877395, guid: 2c42938f231ccb4488c4c772babd2ccf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 5213345004635605777, guid: ce1f2178a023d784db0033f1f9a6a021, type: 3}
     - target: {fileID: 7279077042144077416, guid: 2c42938f231ccb4488c4c772babd2ccf, type: 3}
       propertyPath: m_Name
       value: Player
